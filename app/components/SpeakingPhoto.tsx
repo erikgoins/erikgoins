@@ -13,20 +13,22 @@ export function SpeakingPhoto() {
   const present = existsSync(path.join(process.cwd(), "public", photo.src));
 
   if (!present) {
-    return <p className="text-white/70">{photo.caption}</p>;
+    return <p className="text-[0.9375rem] text-muted">{photo.caption}</p>;
   }
 
   return (
-    <figure className="space-y-2">
+    <figure>
       <Image
         src={photo.src}
         alt={photo.alt}
         width={photo.width}
         height={photo.height}
-        sizes="(max-width: 40rem) 100vw, 34rem"
-        className="w-full rounded-lg"
+        sizes="(max-width: 40rem) 100vw, 32rem"
+        className="photo w-full rounded"
       />
-      <figcaption className="text-white/70">{photo.caption}</figcaption>
+      <figcaption className="mt-3 text-[0.8125rem] text-muted">
+        {photo.caption}
+      </figcaption>
     </figure>
   );
 }

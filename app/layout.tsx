@@ -1,45 +1,52 @@
-import type { Metadata } from "next";
-import { Source_Sans_3 } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
-const sourceSans = Source_Sans_3({
-  variable: "--font-source-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://erikgoins.com"),
   title: "Erik Goins",
-  description: "Erik Goins Personal Site",
+  description: "I help mobile apps make more money.",
   alternates: { canonical: "/" },
   openGraph: {
     siteName: "Erik Goins",
     title: "Erik Goins",
-    description: "Erik Goins Personal Site",
+    description: "I help mobile apps make more money.",
     type: "website",
     url: "https://erikgoins.com",
-    images: [
-      {
-        url: "/images/card.jpg",
-        type: "image/jpeg",
-        width: 1280,
-        height: 800,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Erik Goins",
-    description: "Erik Goins Personal Site",
-    images: ["/images/card.jpg"],
+    description: "I help mobile apps make more money.",
   },
+};
+
+// Tells the browser to paint its own chrome (scrollbar, overscroll canvas) to
+// match the active scheme, so dark mode does not leave a light gutter.
+export const viewport: Viewport = {
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sourceSans.variable} h-full antialiased`}>
-      <body className="min-h-full">{children}</body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${instrumentSerif.variable}`}
+    >
+      <body>{children}</body>
     </html>
   );
 }

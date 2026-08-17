@@ -1,46 +1,99 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Monochrome design tokens.
+
+   The whole site is one neutral ramp — no hue anywhere. Light is the default;
+   dark is a straight inversion of the same ramp, so every rule below keeps
+   working without a second set of component styles.
+   --------------------------------------------------------------------------- */
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #6f6f6f;
+  --rule: #e7e7e7;
+  --hover: #f4f4f4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0b0b;
+    --fg: #f2f2f2;
+    --muted: #8c8c8c;
+    --rule: #222222;
+    --hover: #151515;
+  }
+}
+
 @theme inline {
-  --font-sans: var(--font-source-sans);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-instrument-serif);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-hover: var(--hover);
 }
 
-html {
-  -webkit-text-size-adjust: none;
+/* Element defaults live in @layer base so Tailwind utilities still outrank
+   them — unlayered CSS beats every layered utility. */
+@layer base {
+  html {
+    -webkit-text-size-adjust: none;
+    overflow-x: hidden;
+  }
+
+  body {
+    min-width: 320px;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Hairline underlines that only assert themselves on hover. */
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--rule);
+    text-underline-offset: 0.25em;
+    transition:
+      text-decoration-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  a:hover {
+    text-decoration-color: var(--fg);
+  }
+
+  ::selection {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--fg);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
 }
 
-body {
-  min-height: 100dvh;
-  min-width: 320px;
-  overflow-x: hidden;
-  word-wrap: break-word;
-  color: #ffffff;
-  background-color: #ffffff;
-  font-family: var(--font-source-sans), Arial, Helvetica, sans-serif;
+@utility label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-/* Fixed photographic backdrop with the film-grain noise overlay, ported from
-   the original site so the page keeps its identity. */
-body::before {
-  content: "";
-  display: block;
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100dvh;
-  z-index: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512%22%20height%3D%22512%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%3Cfilter%20id%3D%22noise%22%3E%20%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.875%22%20result%3D%22noise%22%20%2F%3E%20%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.5%200%22%20%2F%3E%20%3C%2Ffilter%3E%20%3Crect%20filter%3D%22url%28%23noise%29%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22transparent%22%20opacity%3D%221%22%20%2F%3E%3C%2Fsvg%3E"),
-    url("/images/bg.jpg");
-  background-size: 512px, cover;
-  background-position: center, center;
-  background-repeat: repeat, no-repeat;
-}
-
-a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.25s ease;
+/* Photography is desaturated so the page stays strictly monochrome. Podcast
+   artwork is the one exception: it returns to colour on hover, which doubles
+   as the affordance for those rows. */
+@utility photo {
+  filter: grayscale(1) contrast(1.02);
+  transition: filter 0.4s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
