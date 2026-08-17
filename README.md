@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Erik Goins
 
-## Getting Started
+I help mobile apps make more money.
 
-First, run the development server:
+Founder, [Flywheel Studio](https://flywheel.so) · Partner, [MIG Real Estate](https://mittenpm.com) · Writing at [I'm the Product](https://imtheproduct.beehiiv.com/subscribe)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Portfolio
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| | |
+| --- | --- |
+| [thyme.so](https://thyme.so) | Investor management for real estate |
+| [pushfire.app](https://pushfire.app) | Visual push notification workflows |
+| [ulink.ly](https://ulink.ly) | The Firebase Dynamic Links alternative |
+| [analyticsdrop.com](https://analyticsdrop.com) | See where your mobile app loses users |
+| [somara.ai](https://somara.ai) | Know exactly how much cash you really have |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Mobile apps
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Primus Fitness · QuitAnything · BettorTogether
 
-## Learn More
+### Speaking
 
-To learn more about Next.js, take a look at the following resources:
+FlutterFlow Developer Conference 2026
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Episode 37 — Community Episode #1](https://podcasts.apple.com/us/podcast/blaze-tech-no-code-no-problem/id1484594161?i=1000487230594) · Blaze.Tech
+- [Building Success in No-Code](https://podcasts.apple.com/us/podcast/building-success-in-no-code-flywheel-studios-journey/id1708719563?i=1000653054876) · This Week in AI
+- [How to start a no-code agency](https://podcasts.apple.com/us/podcast/lowcode-podcast-episode-10-how-to-start-a-no-code-agency/id1614887981?i=1000562858306) · The LowCode Podcast
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Elsewhere
 
-## Deploy on Vercel
+[erikgoins.com](https://erikgoins.com) · [Twitter](https://twitter.com/erikgoinsHQ) · [LinkedIn](https://www.linkedin.com/in/egoins/) · [Instagram](https://www.instagram.com/erik.goins/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<sub>This repo also holds the source for [erikgoins.com](https://erikgoins.com) — a static Next.js site. See `AGENTS.md` for commands and layout.</sub>
