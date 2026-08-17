@@ -47,6 +47,10 @@ Dark mode is a straight inversion under `prefers-color-scheme`; no component car
 
 **Interaction.** Links carry a hairline underline in `--rule` that goes to `--fg` on hover. External-link arrows are hidden until hover or keyboard focus. `:focus-visible` draws a 1px outline at 3px offset.
 
+## Hosting
+
+`next build` runs with `output: "export"` and writes `out/` — HTML, CSS, JS, fonts, images, plus the share card and `404.html`. Cloudflare serves that folder from Workers static assets: `wrangler.jsonc` declares the Worker `erikgoins` with `assets.directory: "./out"` and no `main`, so no code runs on a request. Cloudflare's build runs `npm run build` then `npx wrangler deploy` on push. `public/_headers` carries the two response rules the export needs — `Content-Type` for the extension-less share card, and immutable caching for `/_next/static/*`. Reasoning and what this gives up: [decisions/004](../decisions/004-static-export-on-cloudflare.md).
+
 ## Data model
 
 None. No database, no RLS, no external services.
@@ -64,5 +68,6 @@ Playwright was deliberately skipped: no interaction, no navigation, no client JS
 - **The share card has no static fallback.** `card.jpg` is gone, so if `opengraph-image.tsx` fails the site has no OG image at all. Check `og:image` in the built HTML after touching it.
 - **Satori needs a real TTF/OTF/WOFF** — not WOFF2, and it cannot read `next/font`. That is why the font is vendored under `assets/`.
 - **Conference photo fallback.** `SpeakingPhoto` checks `existsSync(public/<src>)` on the server and falls back to a plain caption. A static `import` would break the build when the file is absent. The check runs at prerender, so adding the file requires a rebuild.
+- **Images ship at source size.** The static export has no optimizer (`images.unoptimized: true`), so `sizes` props do nothing and a 2000px photo is a 1 MB download. Files in `public/images/` are pre-sized to what the layout needs — 1200px photo, 192px avatar, 176px artwork — and the `width`/`height` props must match the real files.
 - Podcast artwork is mirrored into `public/images/`, not hotlinked from Apple.
 - Mobile apps are intentionally plain text — see [decisions/002](../decisions/002-no-invented-links.md).

@@ -12,8 +12,13 @@ Nothing.
 | --- | --- | --- |
 | Personal site rebuilt on Next.js 16 | 2026-08-04 | [features/personal-site.md](./features/personal-site.md) |
 | Monochrome editorial redesign | 2026-08-17 | [decisions/003](./decisions/003-monochrome-redesign.md) |
+| Static export for Cloudflare Workers | 2026-08-17 | [decisions/004](./decisions/004-static-export-on-cloudflare.md) |
 
 ## Verification status
+
+Verified on 2026-08-17 after the move to a static export, from a copy of the repo outside iCloud: `next build` exits 0 with `/`, `/_not-found` and `/opengraph-image` all prerendered static; `npx tsc --noEmit` and `eslint` exit 0; `vitest run` passes 9/9. The export was then served through `wrangler dev` — the same asset server Cloudflare runs — where `/` returns 200 `text/html`, `/opengraph-image` returns 200 `image/png`, `/_next/static/*` returns `max-age=31536000, immutable`, and an unknown path returns 404 with the exported `404.html`. The page was checked in a browser at that URL, including the re-encoded photos.
+
+Payload on the wire: 5 KB HTML, 4.5 KB CSS, 63 KB of woff2, 232 KB of images, and 178 KB of gzipped JavaScript that only hydrates a page with no interactivity.
 
 Verified on 2026-08-17 after the redesign: `vitest run` 9/9 passing, `eslint .` exits 0, `next build` succeeds with `/` and `/opengraph-image` both prerendered as static.
 
@@ -29,5 +34,7 @@ Fix (user's call): either exclude this directory from iCloud sync, or move the r
 
 ## Backlog
 
-- Not deployed. The Vercel project has not been created or linked, and the `erikgoins.com` domain still points at the old static site.
+- Not deployed yet. The Cloudflare Worker `erikgoins` builds from this repo on push; the first deploy failed before this change and has not been re-run. The `erikgoins.com` domain still points at the old static site, so a custom domain still has to be attached to the Worker.
+- When the domain moves, check what the old host was doing that the Worker will not: `www` → apex, and any legacy paths. Those rules belong in `public/_redirects`. Nothing was written yet because the current DNS setup has not been inspected.
+- Open question: drop React and hand-write the HTML? It would remove 178 KB of gzipped JavaScript from a page with no interactivity, at the cost of `content.ts`, the render tests, the font pipeline and the generated share card. See [decisions/004](./decisions/004-static-export-on-cloudflare.md).
 - Optional: replace `card.jpg` with an OG image reflecting the new copy (the current one carries over from the old site).

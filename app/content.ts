@@ -27,8 +27,11 @@ export const speaking = {
     src: "/images/speaking-flutterflow-2026.jpg",
     alt: "Erik Goins speaking at the FlutterFlow Developer Conference 2026",
     caption: "FlutterFlow Developer Conference 2026",
-    width: 2000,
-    height: 1329,
+    // The file ships as-is (no image optimizer in a static export), so these are
+    // the real pixels of the file in /public. Replace the photo and these
+    // numbers together.
+    width: 1200,
+    height: 797,
   },
   // Titles, show names and artwork come from each episode's own Open Graph
   // tags; the artwork is mirrored into /public so the page has no third-party

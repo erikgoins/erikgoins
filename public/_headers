@@ -1,0 +1,12 @@
+# Response headers for Cloudflare Workers static assets. Next copies this file
+# into out/, where Workers reads it (it is never served as an asset).
+# Default for everything else: public, max-age=0, must-revalidate.
+
+# The share card. Next writes the generated PNG as an extension-less file, so
+# Workers serves it with no Content-Type at all. Scrapers need this line.
+/opengraph-image
+  Content-Type: image/png
+
+# Hashed filenames: safe to cache forever.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable

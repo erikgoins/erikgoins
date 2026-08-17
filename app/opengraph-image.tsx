@@ -10,6 +10,11 @@ const instrumentSerif = await readFile(
   join(process.cwd(), "assets/InstrumentSerif-Regular.ttf"),
 );
 
+// A metadata image route is a route handler, so `output: export` refuses to
+// build it until the route says it is static. Without this the whole build
+// fails — it does not silently drop the card.
+export const dynamic = "force-static";
+
 export const alt = "Erik Goins — I help mobile apps make more money.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

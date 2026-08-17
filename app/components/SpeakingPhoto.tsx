@@ -23,7 +23,6 @@ export function SpeakingPhoto() {
         alt={photo.alt}
         width={photo.width}
         height={photo.height}
-        sizes="(max-width: 40rem) 100vw, 32rem"
         className="photo w-full rounded"
       />
       <figcaption className="mt-3 text-[0.8125rem] text-muted">

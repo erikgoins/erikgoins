@@ -60,8 +60,8 @@ export default function Home() {
             <Image
               src="/images/erik-goins.jpg"
               alt="Erik Goins"
-              width={540}
-              height={539}
+              width={192}
+              height={191}
               priority
               className="photo h-16 w-16 rounded-full object-cover"
             />

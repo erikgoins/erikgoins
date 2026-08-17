@@ -11,9 +11,8 @@ export function PodcastRow({ podcast }: { podcast: Podcast }) {
         <Image
           src={podcast.artwork}
           alt=""
-          width={600}
-          height={600}
-          sizes="44px"
+          width={176}
+          height={176}
           className="photo mt-0.5 h-11 w-11 shrink-0 rounded object-cover group-hover:[filter:none]"
         />
         <span className="min-w-0">

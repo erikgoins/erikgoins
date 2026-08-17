@@ -12,12 +12,15 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 Erik Goins' personal one-page site: a single static Next.js route with bio, portfolio, mobile apps, speaking, and social links. Monochrome editorial design, light and dark. No backend, no database, no auth.
 
+`next build` writes a static export to `out/`, which Cloudflare serves from Workers static assets. There is no server runtime and no OpenNext adapter — see `docs/decisions/004-static-export-on-cloudflare.md`.
+
 ## Commands
 
 ```
 npm run dev        # local dev server (Turbopack)
-npm run build      # production build
-npm run start      # serve the production build
+npm run build      # static export to out/
+npm run preview    # serve out/ through wrangler dev (the real asset server)
+npm run deploy     # wrangler deploy (Cloudflare deploys this itself on push)
 npm run lint       # ESLint (eslint-config-next)
 npm run test       # Vitest render tests
 npx tsc --noEmit   # typecheck
@@ -37,10 +40,13 @@ app/
     PodcastRow.tsx         podcast row: artwork, episode title, show name, duration
 assets/
   InstrumentSerif-Regular.ttf   vendored for the share card only (Satori cannot use next/font)
-public/images/
-  erik-goins.jpg           avatar
-  speaking-flutterflow-2026.jpg
-  podcast-*.jpg            episode artwork mirrored from Apple
+public/
+  _headers                 Cloudflare response headers (copied into out/ by the build)
+  images/
+    erik-goins.jpg         avatar, 192px
+    speaking-flutterflow-2026.jpg   1200px
+    podcast-*.jpg          episode artwork mirrored from Apple, 176px
+wrangler.jsonc             assets-only Worker: name, compatibility date, ./out
 tests/page.test.tsx        asserts every section, link and href
 docs/                      INDEX.md, STATE.md, features/, decisions/
 ```
@@ -62,7 +68,9 @@ None. There is no `.env` file and none is needed.
 - `app/components/SpeakingPhoto.tsx` does a server-side `existsSync` check so a missing photo degrades to a caption instead of a broken image. Do not convert it to a static import — that would fail the build when the file is absent.
 - **Do not add height or overflow utilities to `<html>` or `<body>`** — that makes body a nested scroll container. `overflow-x` lives on `<html>` because setting overflow on one axis forces the other to compute as `auto`.
 - Element styles in `globals.css` must stay inside `@layer base`, or they will outrank every Tailwind utility. This already broke `no-underline` once; any hover override of a `@utility` has the same hazard, so verify from computed styles rather than by eye.
-- **The share card has no static fallback.** If `opengraph-image.tsx` fails, the site has no OG image at all. Check `og:image` in the built HTML after touching it.
+- **The share card has no static fallback.** If `opengraph-image.tsx` fails, the site has no OG image at all. Check `og:image` in the built HTML after touching it. It also needs `export const dynamic = "force-static"`, or `output: export` fails the build, and it needs the `Content-Type: image/png` rule in `public/_headers` — Next writes the PNG with no file extension, so Workers serves it untyped.
+- **There is no image optimizer.** `images.unoptimized` is `true`, so every file in `/public` ships at its source size and `sizes` props do nothing. Resize a photo before committing it, and update the `width`/`height` props to the real pixels of the file.
+- **Keep `wrangler.jsonc` committed.** Without a Wrangler config in the repo, `wrangler deploy` detects Next.js and rewrites the project onto the OpenNext adapter mid-build. Its Worker name must match the Cloudflare project (`erikgoins`).
 - Podcast artwork is mirrored into `public/images/`, not hotlinked from Apple.
 - Mobile apps are intentionally plain text: no public URLs have been provided for them.
 - **iCloud Drive breaks tooling here.** This directory is under `~/Documents`, which iCloud syncs; Node hits `ETIMEDOUT` reading `node_modules`, killing `vitest` and slowing `next build` from ~3s to 5+ minutes. See the environment note in `docs/STATE.md`. If a test or build fails with `ETIMEDOUT`, it is the filesystem, not the code.
