@@ -43,7 +43,9 @@ Dark mode is a straight inversion under `prefers-color-scheme`; no component car
 
 **Grid.** One hanging-label grid, `sm:grid-cols-[7rem_1fr]` with a `2.5rem` gutter, shared by the masthead, every section, and the footer, so labels hang in the left margin and all content shares one left edge. Below `sm` it collapses to a stack. Column caps at `40rem`.
 
-**Imagery.** The `photo` utility applies `grayscale(1) contrast(1.02)`. Podcast artwork overrides it to `none` on hover.
+The masthead spends its label column on the portrait rather than a label: 112px square, which is the column width exactly, so the portrait's left edge lands on the label left edge and its right edge on the gutter. `sm:mt-1` drops its top onto the cap height of the name instead of the taller line box (measured, not guessed — 0.7px off at the widths where the grid applies).
+
+**Imagery.** The `photo` utility applies `grayscale(1) contrast(1.02)`. Podcast artwork overrides it to `none` on hover. The portrait renders a 192px source at 112px, so it stays sharp on a 2x display.
 
 **Interaction.** Links carry a hairline underline in `--rule` that goes to `--fg` on hover. External-link arrows are hidden until hover or keyboard focus. `:focus-visible` draws a 1px outline at 3px offset.
 

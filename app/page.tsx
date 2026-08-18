@@ -55,17 +55,18 @@ export default function Home() {
     <div className="px-6 py-20 sm:px-8 sm:py-28">
       <main className="mx-auto w-full max-w-[40rem]">
         <header className={`mb-14 sm:mb-16 ${GRID}`}>
-          <div aria-hidden="true" />
+          {/* The portrait fills the label column edge to edge, so it shares the
+              left edge every section label uses and stops at the gutter. */}
+          <Image
+            src="/images/erik-goins.jpg"
+            alt="Erik Goins"
+            width={192}
+            height={191}
+            priority
+            className="photo mb-8 h-28 w-28 rounded-full object-cover sm:mt-1 sm:mb-0"
+          />
           <div>
-            <Image
-              src="/images/erik-goins.jpg"
-              alt="Erik Goins"
-              width={192}
-              height={191}
-              priority
-              className="photo h-16 w-16 rounded-full object-cover"
-            />
-            <h1 className="mt-8 font-serif text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.95] tracking-[-0.02em]">
+            <h1 className="font-serif text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.95] tracking-[-0.02em]">
               Erik Goins
             </h1>
             <p className="mt-5 max-w-[30ch] text-lg leading-relaxed text-pretty text-muted sm:text-xl">
