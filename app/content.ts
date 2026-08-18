@@ -8,7 +8,6 @@ export const bio = "I help mobile apps make more money.";
 export const roles = [
   { label: "Founder, Flywheel Studio", href: "https://flywheel.so" },
   { label: "Partner, MIG Real Estate", href: "https://mittenpm.com" },
-  { label: "Writing @ I'm the Product", href: "https://imtheproduct.beehiiv.com/subscribe" },
 ];
 
 export const portfolio = [
@@ -66,6 +65,5 @@ export type Podcast = (typeof speaking.podcasts)[number];
 export const socials = [
   { label: "Twitter", href: "https://twitter.com/erikgoinsHQ" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/egoins/" },
-  { label: "Instagram", href: "https://www.instagram.com/erik.goins/" },
   { label: "Email", href: "mailto:erik@flywheel.so" },
 ];

@@ -1,6 +1,6 @@
 # State
 
-_Last updated: 2026-08-17_
+_Last updated: 2026-08-18_
 
 ## In Progress
 
@@ -13,8 +13,21 @@ Nothing.
 | Personal site rebuilt on Next.js 16 | 2026-08-04 | [features/personal-site.md](./features/personal-site.md) |
 | Monochrome editorial redesign | 2026-08-17 | [decisions/003](./decisions/003-monochrome-redesign.md) |
 | Static export for Cloudflare Workers | 2026-08-17 | [decisions/004](./decisions/004-static-export-on-cloudflare.md) |
+| Portrait moved into the label column; newsletter role and Instagram removed | 2026-08-18 | [decisions/005](./decisions/005-trim-roles-and-socials.md) |
 
 ## Verification status
+
+Verified on 2026-08-18 after moving the portrait into the label column and trimming the
+newsletter role and the Instagram link: `next build` exits 0 with `/`, `/_not-found` and
+`/opengraph-image` all prerendered static (TypeScript passes inside that build), and
+`eslint` exits 0 in place. `vitest run` passes 9/9 — but only from a copy of the repo on
+local disk; in place it dies with `Timeout waiting for worker to respond`, the iCloud
+failure described below.
+
+The export was served with `python3 -m http.server -d out` and read in a browser. The
+portrait's geometry was measured from the rendered page rather than judged by eye: its left
+edge sits at the same x as every section label, and its top is 0.7px from the cap height of
+"Erik Goins". Roles renders two lines and Elsewhere renders Twitter, LinkedIn and Email.
 
 Verified on 2026-08-17 after the move to a static export, from a copy of the repo outside iCloud: `next build` exits 0 with `/`, `/_not-found` and `/opengraph-image` all prerendered static; `npx tsc --noEmit` and `eslint` exit 0; `vitest run` passes 9/9. The export was then served through `wrangler dev` — the same asset server Cloudflare runs — where `/` returns 200 `text/html`, `/opengraph-image` returns 200 `image/png`, `/_next/static/*` returns `max-age=31536000, immutable`, and an unknown path returns 404 with the exported `404.html`. The page was checked in a browser at that URL, including the re-encoded photos.
 

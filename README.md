@@ -2,7 +2,7 @@
 
 I help mobile apps make more money.
 
-Founder, [Flywheel Studio](https://flywheel.so) · Partner, [MIG Real Estate](https://mittenpm.com) · Writing at [I'm the Product](https://imtheproduct.beehiiv.com/subscribe)
+Founder, [Flywheel Studio](https://flywheel.so) · Partner, [MIG Real Estate](https://mittenpm.com)
 
 ### Portfolio
 
@@ -28,7 +28,7 @@ FlutterFlow Developer Conference 2026
 
 ### Elsewhere
 
-[erikgoins.com](https://erikgoins.com) · [Twitter](https://twitter.com/erikgoinsHQ) · [LinkedIn](https://www.linkedin.com/in/egoins/) · [Instagram](https://www.instagram.com/erik.goins/)
+[erikgoins.com](https://erikgoins.com) · [Twitter](https://twitter.com/erikgoinsHQ) · [LinkedIn](https://www.linkedin.com/in/egoins/)
 
 ---
 
