@@ -1,6 +1,6 @@
 # State
 
-_Last updated: 2026-09-16_
+_Last updated: 2026-09-27_
 
 ## In Progress
 
@@ -15,8 +15,24 @@ Nothing.
 | Static export for Cloudflare Workers | 2026-08-17 | [decisions/004](./decisions/004-static-export-on-cloudflare.md) |
 | Portrait moved into the label column; newsletter role and Instagram removed | 2026-08-18 | [decisions/005](./decisions/005-trim-roles-and-socials.md) |
 | Location timeline with a generated world map | 2026-09-16 | [features/location-timeline.md](./features/location-timeline.md) |
+| Webinars in Speaking; Flywheel's YouTube channel in Elsewhere | 2026-09-27 | [decisions/007](./decisions/007-webinars-and-youtube.md) |
 
 ## Verification status
+
+Verified on 2026-09-27 after adding the webinars and the YouTube link, from a copy of the
+repo on local disk: `vitest run` passes 26/26, `eslint .` exits 0, and `next build` exits 0
+with `/`, `/_not-found` and `/opengraph-image` all prerendered static. `npx tsc --noEmit`
+exits 0 once the build has generated `.next/types`; before that it fails on the
+Next-generated global `LayoutProps` in `app/layout.tsx`, which this change did not touch.
+
+`out/index.html` carries all three `youtube.com/watch` URLs and the
+`youtube.com/@FlywheelStudio` link, and `out/images/` holds the three webinar thumbnails.
+The export was served with `python3 -m http.server -d out` and measured through the
+DevTools protocol in headless Chrome at 375px and 1280px, light and dark. Webinar
+thumbnails draw 78.2×44 from 176×99 files and podcast artwork 44×44. There is no
+horizontal overflow at 375px (`scrollWidth` === `clientWidth`), and the four footer links
+fit on one line. On hover, the thumbnail filter goes from `grayscale(1) contrast(1.02)` to
+`none` and the row picks up `--hover`.
 
 Verified on 2026-09-16 after adding the Location section: `vitest run` passes 24/24 and
 `next build` exits 0 with `/`, `/_not-found` and `/opengraph-image` all prerendered static
@@ -66,7 +82,7 @@ Fix (user's call): either exclude this directory from iCloud sync, or move the r
 
 ## Backlog
 
-- Not deployed yet. The Cloudflare Worker `erikgoins` builds from this repo on push; the first deploy failed before this change and has not been re-run. The `erikgoins.com` domain still points at the old static site, so a custom domain still has to be attached to the Worker.
-- When the domain moves, check what the old host was doing that the Worker will not: `www` → apex, and any legacy paths. Those rules belong in `public/_redirects`. Nothing was written yet because the current DNS setup has not been inspected.
+- `www.erikgoins.com` returns HTTP 522 (checked 2026-09-27): Cloudflare has no origin for it. Attach `www` to the Worker as a custom domain, or add a redirect rule from `www` to the apex. The apex `erikgoins.com` already serves the Worker, and Cloudflare Workers Builds deploys it on every push to `main`.
+- Legacy paths from the old host were never checked. Redirects for any that matter belong in `public/_redirects`.
 - Open question: drop React and hand-write the HTML? It would remove 178 KB of gzipped JavaScript from a page with no interactivity, at the cost of `content.ts`, the render tests, the font pipeline and the generated share card. See [decisions/004](./decisions/004-static-export-on-cloudflare.md).
 - Optional: replace `card.jpg` with an OG image reflecting the new copy (the current one carries over from the old site).

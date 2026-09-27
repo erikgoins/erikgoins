@@ -11,3 +11,4 @@
 | [decisions/004-static-export-on-cloudflare.md](./decisions/004-static-export-on-cloudflare.md) | Static export served from Cloudflare Workers assets, instead of OpenNext |
 | [decisions/005-trim-roles-and-socials.md](./decisions/005-trim-roles-and-socials.md) | Newsletter role and Instagram link removed; supersedes the newsletter half of 001 |
 | [decisions/006-location-map.md](./decisions/006-location-map.md) | The location map is a generated silhouette, not a map service |
+| [decisions/007-webinars-and-youtube.md](./decisions/007-webinars-and-youtube.md) | Webinars in Speaking and Flywheel's YouTube channel in Elsewhere |

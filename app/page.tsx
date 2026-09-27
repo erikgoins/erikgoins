@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Location } from "./components/Location";
-import { PodcastRow } from "./components/PodcastRow";
+import { MediaRow } from "./components/MediaRow";
 import { SpeakingPhoto } from "./components/SpeakingPhoto";
 import { bio, mobileApps, portfolio, roles, socials, speaking } from "./content";
 
@@ -107,9 +107,14 @@ export default function Home() {
         <Section label="Speaking">
           <div className="space-y-8">
             <SpeakingPhoto />
-            <ul className="space-y-1">
+            <ul aria-label="Webinars" className="space-y-1">
+              {speaking.webinars.map((webinar) => (
+                <MediaRow key={webinar.href} item={webinar} />
+              ))}
+            </ul>
+            <ul aria-label="Podcasts" className="space-y-1">
               {speaking.podcasts.map((podcast) => (
-                <PodcastRow key={podcast.href} podcast={podcast} />
+                <MediaRow key={podcast.href} item={podcast} />
               ))}
             </ul>
           </div>

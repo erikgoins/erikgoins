@@ -39,7 +39,7 @@ app/
   lib/geo.ts               projection, haversine, route splitting, year/coordinate strings
   components/
     SpeakingPhoto.tsx      renders the conference photo only if the file exists in /public
-    PodcastRow.tsx         podcast row: artwork, episode title, show name, duration
+    MediaRow.tsx           podcast or webinar row: artwork, title, show name, duration
     Location.tsx           world map, timeline of moves, mileage summary
 scripts/
   build-world-map.mjs      regenerates app/world-map.ts from world-atlas 110m
@@ -51,6 +51,7 @@ public/
     erik-goins.jpg         avatar, 192px
     speaking-flutterflow-2026.jpg   1200px
     podcast-*.jpg          episode artwork mirrored from Apple, 176px
+    webinar-*.jpg          YouTube thumbnails mirrored at 176x99
 wrangler.jsonc             assets-only Worker: name, compatibility date, ./out
 tests/page.test.tsx        asserts every section, link and href
 tests/geo.test.ts          asserts the projection, distances and antimeridian splits
@@ -59,7 +60,7 @@ docs/                      INDEX.md, STATE.md, features/, decisions/
 
 ## Design
 
-Monochrome: five tokens (`--bg`, `--fg`, `--muted`, `--rule`, `--hover`) in `globals.css`, one neutral ramp, no hue. Dark mode is a straight inversion of the same five. Instrument Serif for the name only; Inter everywhere else. One hanging-label grid (`7rem` label + content) shared by masthead, sections and footer. Images are grayscale; podcast artwork returns to colour on hover. Full rationale in `docs/decisions/003-monochrome-redesign.md`.
+Monochrome: five tokens (`--bg`, `--fg`, `--muted`, `--rule`, `--hover`) in `globals.css`, one neutral ramp, no hue. Dark mode is a straight inversion of the same five. Instrument Serif for the name only; Inter everywhere else. One hanging-label grid (`7rem` label + content) shared by masthead, sections and footer. Images are grayscale; podcast and webinar artwork returns to colour on hover. Full rationale in `docs/decisions/003-monochrome-redesign.md`.
 
 ## Editing content
 
@@ -77,7 +78,7 @@ None. There is no `.env` file and none is needed.
 - **The share card has no static fallback.** If `opengraph-image.tsx` fails, the site has no OG image at all. Check `og:image` in the built HTML after touching it. It also needs `export const dynamic = "force-static"`, or `output: export` fails the build, and it needs the `Content-Type: image/png` rule in `public/_headers` — Next writes the PNG with no file extension, so Workers serves it untyped.
 - **There is no image optimizer.** `images.unoptimized` is `true`, so every file in `/public` ships at its source size and `sizes` props do nothing. Resize a photo before committing it, and update the `width`/`height` props to the real pixels of the file.
 - **Keep `wrangler.jsonc` committed.** Without a Wrangler config in the repo, `wrangler deploy` detects Next.js and rewrites the project onto the OpenNext adapter mid-build. Its Worker name must match the Cloudflare project (`erikgoins`).
-- Podcast artwork is mirrored into `public/images/`, not hotlinked from Apple.
+- Podcast artwork and webinar thumbnails are mirrored into `public/images/`, not hotlinked from Apple or YouTube.
 - **`app/world-map.ts` is generated.** Run `node scripts/build-world-map.mjs` and commit the
   result; never hand-edit it. The map draws in degrees (`x = lon`, `y = -lat`) and the
   `viewBox` does the scaling, so the dots and the land share one projection — keep it that

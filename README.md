@@ -22,13 +22,16 @@ Primus Fitness · QuitAnything · BettorTogether
 
 FlutterFlow Developer Conference 2026
 
+- [What Should You Build Next?](https://www.youtube.com/watch?v=V2jC3C1lJxo) · FlutterFlow Workshop Series
+- [The Numbers Every App Builder Should Know in 2026](https://www.youtube.com/watch?v=mwJndIeLbiQ) · FlutterFlow Workshop Series
+- [Why Most Apps Lose 95% of Their Users](https://www.youtube.com/watch?v=Rf1pciW7xt0) · Flywheel Studio Webinar
 - [Episode 37 — Community Episode #1](https://podcasts.apple.com/us/podcast/blaze-tech-no-code-no-problem/id1484594161?i=1000487230594) · Blaze.Tech
 - [Building Success in No-Code](https://podcasts.apple.com/us/podcast/building-success-in-no-code-flywheel-studios-journey/id1708719563?i=1000653054876) · This Week in AI
 - [How to start a no-code agency](https://podcasts.apple.com/us/podcast/lowcode-podcast-episode-10-how-to-start-a-no-code-agency/id1614887981?i=1000562858306) · The LowCode Podcast
 
 ### Elsewhere
 
-[erikgoins.com](https://erikgoins.com) · [Twitter](https://twitter.com/erikgoinsHQ) · [LinkedIn](https://www.linkedin.com/in/egoins/)
+[erikgoins.com](https://erikgoins.com) · [Twitter](https://twitter.com/erikgoinsHQ) · [LinkedIn](https://www.linkedin.com/in/egoins/) · [YouTube](https://www.youtube.com/@FlywheelStudio)
 
 ---
 

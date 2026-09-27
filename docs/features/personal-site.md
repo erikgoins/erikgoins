@@ -2,13 +2,13 @@
 
 ## What it does
 
-Serves `erikgoins.com` as a single statically-prerendered page: name, bio, roles, portfolio companies, mobile apps, public speaking, and social links — as a monochrome editorial page that works in light and dark.
+Serves `erikgoins.com` as a single statically-prerendered page: name, bio, roles, portfolio companies, mobile apps, public speaking (conference photo, webinars, podcasts), and social links — as a monochrome editorial page that works in light and dark.
 
 ## How it works
 
 **Architecture.** One App Router route (`app/page.tsx`), no client components, no data fetching. Fully prerendered at build time. A second static route, `app/opengraph-image.tsx`, renders the share card.
 
-**Content model.** Every string and URL lives in `app/content.ts` and is imported by the page. Adding an entry to `portfolio`, `roles`, or `speaking.podcasts` renders it and brings it under test coverage without touching JSX.
+**Content model.** Every string and URL lives in `app/content.ts` and is imported by the page. Adding an entry to `portfolio`, `roles`, `socials`, `speaking.webinars` or `speaking.podcasts` renders it and brings it under test coverage without touching JSX. Webinars and podcasts share the `MediaItem` type, which carries the artwork's real `width` and `height`.
 
 **Key files**
 
@@ -19,7 +19,7 @@ Serves `erikgoins.com` as a single statically-prerendered page: name, bio, roles
 | `app/page.tsx` | Layout, the hanging-label grid, `Section` and `LinkRow` |
 | `app/globals.css` | Design tokens, base element styles, the `label` and `photo` utilities |
 | `app/components/SpeakingPhoto.tsx` | Conditional render of the conference photo |
-| `app/components/PodcastRow.tsx` | Podcast row: artwork, episode title, show, duration |
+| `app/components/MediaRow.tsx` | Podcast or webinar row: artwork, title, show, duration |
 | `app/opengraph-image.tsx` | Generated 1200×630 share card |
 | `assets/InstrumentSerif-Regular.ttf` | Vendored for the share card only — Satori cannot use `next/font` |
 
@@ -45,7 +45,7 @@ Dark mode is a straight inversion under `prefers-color-scheme`; no component car
 
 The masthead spends its label column on the portrait rather than a label: 112px square, which is the column width exactly, so the portrait's left edge lands on the label left edge and its right edge on the gutter. `sm:mt-1` drops its top onto the cap height of the name instead of the taller line box (measured, not guessed — 0.7px off at the widths where the grid applies).
 
-**Imagery.** The `photo` utility applies `grayscale(1) contrast(1.02)`. Podcast artwork overrides it to `none` on hover. The portrait renders a 192px source at 112px, so it stays sharp on a 2x display.
+**Imagery.** The `photo` utility applies `grayscale(1) contrast(1.02)`. Podcast and webinar artwork overrides it to `none` on hover. `MediaRow` holds artwork to a 44px height with `w-auto`, so square podcast covers draw 44×44 and 16:9 webinar thumbnails draw 78×44 from the same markup. Webinars and podcasts are two `<ul>`s, labelled for screen readers with `aria-label`; see [decisions/007](../decisions/007-webinars-and-youtube.md). The portrait renders a 192px source at 112px, so it stays sharp on a 2x display.
 
 **Interaction.** Links carry a hairline underline in `--rule` that goes to `--fg` on hover. External-link arrows are hidden until hover or keyboard focus. `:focus-visible` draws a 1px outline at 3px offset.
 
@@ -59,7 +59,7 @@ None. No database, no RLS, no external services.
 
 ## Testing
 
-`tests/page.test.tsx` (Vitest + Testing Library, jsdom) renders the page and asserts the `h1` and bio, all five section headings, every role/portfolio href, that mobile apps have no anchor ancestor, every social link, the podcast card structure (artwork present with `alt=""`, show and duration in the text, real `podcasts.apple.com` hrefs), and that the conference photo exists on disk so the degraded caption-only path cannot ship unnoticed.
+`tests/page.test.tsx` (Vitest + Testing Library, jsdom) renders the page and asserts the `h1` and bio, all five section headings, every role/portfolio href, that mobile apps have no anchor ancestor, every social link, the podcast card structure (artwork present with `alt=""`, show and duration in the text, real `podcasts.apple.com` hrefs), the webinar card structure (inside the Webinars list, declared `width`/`height` on the `<img>`, `youtube.com/watch?v=` hrefs, thumbnail file on disk), and that the conference photo exists on disk so the degraded caption-only path cannot ship unnoticed.
 
 Playwright was deliberately skipped: no interaction, no navigation, no client JS. Design-level properties — the token inversion, hover states, the grid — were verified in a real browser instead, from computed styles rather than by eye.
 
@@ -70,6 +70,6 @@ Playwright was deliberately skipped: no interaction, no navigation, no client JS
 - **The share card has no static fallback.** `card.jpg` is gone, so if `opengraph-image.tsx` fails the site has no OG image at all. Check `og:image` in the built HTML after touching it.
 - **Satori needs a real TTF/OTF/WOFF** — not WOFF2, and it cannot read `next/font`. That is why the font is vendored under `assets/`.
 - **Conference photo fallback.** `SpeakingPhoto` checks `existsSync(public/<src>)` on the server and falls back to a plain caption. A static `import` would break the build when the file is absent. The check runs at prerender, so adding the file requires a rebuild.
-- **Images ship at source size.** The static export has no optimizer (`images.unoptimized: true`), so `sizes` props do nothing and a 2000px photo is a 1 MB download. Files in `public/images/` are pre-sized to what the layout needs — 1200px photo, 192px avatar, 176px artwork — and the `width`/`height` props must match the real files.
-- Podcast artwork is mirrored into `public/images/`, not hotlinked from Apple.
+- **Images ship at source size.** The static export has no optimizer (`images.unoptimized: true`), so `sizes` props do nothing and a 2000px photo is a 1 MB download. Files in `public/images/` are pre-sized to what the layout needs — 1200px photo, 192px avatar, 176px podcast artwork, 176×99 webinar thumbnails — and the `width`/`height` props must match the real files.
+- Podcast artwork and webinar thumbnails are mirrored into `public/images/`, not hotlinked from Apple or YouTube. A new webinar needs its thumbnail resized first: `sips --resampleWidth 176 maxresdefault.jpg --out public/images/webinar-<slug>.jpg`.
 - Mobile apps are intentionally plain text — see [decisions/002](../decisions/002-no-invented-links.md).

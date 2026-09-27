@@ -20,6 +20,22 @@ export const portfolio = [
 
 export const mobileApps = ["Primus Fitness", "QuitAnything", "BettorTogether"];
 
+/**
+ * One row in the Speaking section: a podcast episode or a recorded webinar.
+ * The artwork ships at source size (no image optimizer in a static export), so
+ * `width` and `height` are the real pixels of the file in /public — replace
+ * the file and these numbers together.
+ */
+export type MediaItem = {
+  label: string;
+  show: string;
+  meta: string;
+  artwork: string;
+  width: number;
+  height: number;
+  href: string;
+};
+
 export const speaking = {
   photo: {
     // Drop the conference photo at this path in /public to have it render.
@@ -32,6 +48,38 @@ export const speaking = {
     width: 1200,
     height: 797,
   },
+  // Recorded webinars, newest first. Titles and lengths come from each video's
+  // YouTube page. Thumbnails are mirrored into /public at 176x99, twice the
+  // size the row draws them.
+  webinars: [
+    {
+      label: "What Should You Build Next? A Framework for Making Product Decisions",
+      show: "FlutterFlow Workshop Series",
+      meta: "57m",
+      artwork: "/images/webinar-flutterflow-build-next.jpg",
+      width: 176,
+      height: 99,
+      href: "https://www.youtube.com/watch?v=V2jC3C1lJxo",
+    },
+    {
+      label: "The Numbers Every App Builder Should Know in 2026",
+      show: "FlutterFlow Workshop Series",
+      meta: "1h 2m",
+      artwork: "/images/webinar-flutterflow-numbers.jpg",
+      width: 176,
+      height: 99,
+      href: "https://www.youtube.com/watch?v=mwJndIeLbiQ",
+    },
+    {
+      label: "Why Most Apps Lose 95% of Their Users (And How the Winners Beat Those Odds)",
+      show: "Flywheel Studio Webinar",
+      meta: "39m",
+      artwork: "/images/webinar-flywheel-retention.jpg",
+      width: 176,
+      height: 99,
+      href: "https://www.youtube.com/watch?v=Rf1pciW7xt0",
+    },
+  ] satisfies MediaItem[],
   // Titles, show names and artwork come from each episode's own Open Graph
   // tags; the artwork is mirrored into /public so the page has no third-party
   // image dependency.
@@ -41,6 +89,8 @@ export const speaking = {
       show: "Blaze.Tech — No Code No Problem",
       meta: "34m",
       artwork: "/images/podcast-blaze-tech.jpg",
+      width: 176,
+      height: 176,
       href: "https://podcasts.apple.com/us/podcast/blaze-tech-no-code-no-problem/id1484594161?i=1000487230594",
     },
     {
@@ -48,6 +98,8 @@ export const speaking = {
       show: "This Week in AI",
       meta: "1h 10m",
       artwork: "/images/podcast-this-week-in-ai.jpg",
+      width: 176,
+      height: 176,
       href: "https://podcasts.apple.com/us/podcast/building-success-in-no-code-flywheel-studios-journey/id1708719563?i=1000653054876",
     },
     {
@@ -55,16 +107,18 @@ export const speaking = {
       show: "The LowCode Podcast",
       meta: "38m",
       artwork: "/images/podcast-lowcode.jpg",
+      width: 176,
+      height: 176,
       href: "https://podcasts.apple.com/us/podcast/lowcode-podcast-episode-10-how-to-start-a-no-code-agency/id1614887981?i=1000562858306",
     },
-  ],
+  ] satisfies MediaItem[],
 };
-
-export type Podcast = (typeof speaking.podcasts)[number];
 
 export const socials = [
   { label: "Twitter", href: "https://twitter.com/erikgoinsHQ" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/egoins/" },
+  // Flywheel Studio's channel: the webinars and build videos live there.
+  { label: "YouTube", href: "https://www.youtube.com/@FlywheelStudio" },
   { label: "Email", href: "mailto:erik@flywheel.so" },
 ];
 

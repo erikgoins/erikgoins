@@ -80,6 +80,40 @@ describe("home page", () => {
     }
   });
 
+  it("renders each webinar as a card with artwork, title, host and duration", () => {
+    renderHome();
+    const list = screen.getByRole("list", { name: "Webinars" });
+    for (const webinar of speaking.webinars) {
+      const link = screen.getByRole("link", {
+        name: new RegExp(escapeRegExp(webinar.label)),
+      });
+      expect(list.contains(link)).toBe(true);
+      expect(link.getAttribute("href")).toBe(webinar.href);
+
+      const img = link.querySelector("img");
+      expect(img?.getAttribute("alt")).toBe("");
+      // The row sizes the thumbnail from these, so a 16:9 file declared as a
+      // square would render squashed.
+      expect(img?.getAttribute("width")).toBe(String(webinar.width));
+      expect(img?.getAttribute("height")).toBe(String(webinar.height));
+
+      expect(link.textContent).toContain(webinar.show);
+      expect(link.textContent).toContain(webinar.meta);
+    }
+  });
+
+  it("points every webinar at its YouTube video and a mirrored thumbnail", () => {
+    for (const webinar of speaking.webinars) {
+      expect(webinar.href).toMatch(
+        /^https:\/\/www\.youtube\.com\/watch\?v=[A-Za-z0-9_-]{11}$/,
+      );
+      expect(webinar.artwork).toMatch(/^\/images\//);
+      expect(existsSync(join(process.cwd(), "public", webinar.artwork))).toBe(
+        true,
+      );
+    }
+  });
+
   it("lists the mobile apps as plain text (no invented links)", () => {
     renderHome();
     for (const app of mobileApps) {

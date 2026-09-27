@@ -89,8 +89,8 @@
 }
 
 /* Photography is desaturated so the page stays strictly monochrome. Podcast
-   artwork is the one exception: it returns to colour on hover, which doubles
-   as the affordance for those rows. */
+   and webinar artwork is the one exception: it returns to colour on hover,
+   which doubles as the affordance for those rows. */
 @utility photo {
   filter: grayscale(1) contrast(1.02);
   transition: filter 0.4s ease;
