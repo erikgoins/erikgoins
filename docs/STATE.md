@@ -1,6 +1,6 @@
 # State
 
-_Last updated: 2026-08-18_
+_Last updated: 2026-09-16_
 
 ## In Progress
 
@@ -14,8 +14,27 @@ Nothing.
 | Monochrome editorial redesign | 2026-08-17 | [decisions/003](./decisions/003-monochrome-redesign.md) |
 | Static export for Cloudflare Workers | 2026-08-17 | [decisions/004](./decisions/004-static-export-on-cloudflare.md) |
 | Portrait moved into the label column; newsletter role and Instagram removed | 2026-08-18 | [decisions/005](./decisions/005-trim-roles-and-socials.md) |
+| Location timeline with a generated world map | 2026-09-16 | [features/location-timeline.md](./features/location-timeline.md) |
 
 ## Verification status
+
+Verified on 2026-09-16 after adding the Location section: `vitest run` passes 24/24 and
+`next build` exits 0 with `/`, `/_not-found` and `/opengraph-image` all prerendered static
+(TypeScript passes inside that build) — both from a copy of the repo on local disk.
+`eslint .` and `npx tsc --noEmit` exit 0 in place.
+
+The export was served with `python3 -m http.server -d out` and read in headless Chrome in
+both colour schemes. The map was checked against the geography rather than by eye: Buenos
+Aires sits on the Argentine coast, Hong Kong on the South China coast, and the
+Charlotte → Hong Kong leg leaves the left edge and re-enters at the right instead of
+drawing a bar across the map. One land ring did draw as a bar — Fiji, which crosses the
+antimeridian — and the generator now unwraps rings and draws them on both sides of the
+seam. Geometry was measured through the DevTools protocol, not judged from the screenshot:
+at 375px there is no horizontal overflow (`scrollWidth` === `clientWidth` === 375) and all
+six timeline dots share one centre line at x=29 despite three different dot sizes.
+
+Payload: the built HTML goes from 5 KB to 12 KB gzipped (66 KB raw), all of it the inlined
+map path. Nothing else on the page changed.
 
 Verified on 2026-08-18 after moving the portrait into the label column and trimming the
 newsletter role and the Instagram link: `next build` exits 0 with `/`, `/_not-found` and

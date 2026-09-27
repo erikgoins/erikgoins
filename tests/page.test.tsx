@@ -6,11 +6,13 @@ import Home from "../app/page";
 import {
   bio,
   mobileApps,
+  places,
   portfolio,
   roles,
   socials,
   speaking,
 } from "../app/content";
+import { years } from "../app/lib/geo";
 
 function escapeRegExp(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -38,6 +40,7 @@ describe("home page", () => {
       "Portfolio",
       "Mobile apps",
       "Speaking",
+      "Location",
       "Elsewhere",
     ]) {
       expect(screen.getByRole("heading", { level: 2, name: title })).toBeDefined();
@@ -96,6 +99,40 @@ describe("home page", () => {
   it("shows the speaking engagement caption", () => {
     renderHome();
     expect(screen.getByText(speaking.photo.caption)).toBeDefined();
+  });
+
+  it("renders every place and its years in the location timeline", () => {
+    renderHome();
+    for (const place of places) {
+      expect(screen.getByText(place.label)).toBeDefined();
+      expect(screen.getByText(years(place))).toBeDefined();
+    }
+  });
+
+  it("marks the current place as current", () => {
+    renderHome();
+    expect(screen.getByText("2023 — now")).toBeDefined();
+    expect(screen.getByText(places[0].label).className).toContain("font-medium");
+  });
+
+  it("summarises the distance travelled", () => {
+    renderHome();
+    expect(screen.getByText("20,400 miles, five moves")).toBeDefined();
+  });
+
+  it("draws a map dot for every place that has coordinates", () => {
+    const { container } = render(Home() as React.ReactElement);
+    const located = places.filter((place) => place.lat !== null);
+    expect(container.querySelectorAll("circle")).toHaveLength(located.length);
+
+    // The projection is unit-tested; this asserts the component actually used
+    // it, because a transposed cx/cy draws a plausible map of the wrong world.
+    const current = container.querySelector("circle");
+    expect(Number(current?.getAttribute("cx"))).toBe(places[0].lon);
+    expect(Number(current?.getAttribute("cy"))).toBe(-places[0].lat!);
+
+    // The map is decoration; the list beneath it carries the same facts.
+    expect(container.querySelector("svg")?.getAttribute("aria-hidden")).toBe("true");
   });
 
   it("has the conference photo on disk, so it renders rather than falling back", () => {

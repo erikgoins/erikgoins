@@ -67,3 +67,30 @@ export const socials = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/egoins/" },
   { label: "Email", href: "mailto:erik@flywheel.so" },
 ];
+
+/**
+ * Where Erik has lived, newest first.
+ *
+ * `from: null` is an open start (the row Erik was born into), `to: null` is
+ * "now", and `lat`/`lon` of `null` means the row has no single point on the
+ * map — the nomadic years. The map dots, the connecting route and the mileage
+ * are all derived from these coordinates, so editing a row here moves
+ * everything at once.
+ */
+export type Place = {
+  label: string;
+  from: number | null;
+  to: number | null;
+  lat: number | null;
+  lon: number | null;
+};
+
+export const places: Place[] = [
+  { label: "Buenos Aires", from: 2023, to: null, lat: -34.6, lon: -58.38 },
+  { label: "Nomadic", from: 2020, to: 2023, lat: null, lon: null },
+  { label: "Hong Kong", from: 2015, to: 2020, lat: 22.32, lon: 114.17 },
+  { label: "Charlotte", from: 2013, to: 2015, lat: 35.23, lon: -80.84 },
+  // Bowling Green State University.
+  { label: "Ohio", from: 2009, to: 2013, lat: 41.37, lon: -83.65 },
+  { label: "Michigan", from: null, to: 2009, lat: 43.0, lon: -84.5 },
+];

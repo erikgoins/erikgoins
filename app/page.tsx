@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Location } from "./components/Location";
 import { PodcastRow } from "./components/PodcastRow";
 import { SpeakingPhoto } from "./components/SpeakingPhoto";
 import { bio, mobileApps, portfolio, roles, socials, speaking } from "./content";
@@ -112,6 +113,10 @@ export default function Home() {
               ))}
             </ul>
           </div>
+        </Section>
+
+        <Section label="Location">
+          <Location />
         </Section>
 
         <footer className={`border-t border-rule pt-8 ${GRID}`}>

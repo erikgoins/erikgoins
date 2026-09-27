@@ -30,14 +30,19 @@ npx tsc --noEmit   # typecheck
 
 ```
 app/
-  content.ts               single source of truth for all copy and links
+  content.ts               single source of truth for all copy, links and places
   layout.tsx               fonts, metadata, viewport colour-scheme hint
   page.tsx                 the entire page: hanging-label grid, Section, LinkRow
   globals.css              design tokens, @layer base elements, label/photo utilities
   opengraph-image.tsx      generated 1200x630 share card
+  world-map.ts             GENERATED land silhouette, one SVG path (do not edit)
+  lib/geo.ts               projection, haversine, route splitting, year/coordinate strings
   components/
     SpeakingPhoto.tsx      renders the conference photo only if the file exists in /public
     PodcastRow.tsx         podcast row: artwork, episode title, show name, duration
+    Location.tsx           world map, timeline of moves, mileage summary
+scripts/
+  build-world-map.mjs      regenerates app/world-map.ts from world-atlas 110m
 assets/
   InstrumentSerif-Regular.ttf   vendored for the share card only (Satori cannot use next/font)
 public/
@@ -48,6 +53,7 @@ public/
     podcast-*.jpg          episode artwork mirrored from Apple, 176px
 wrangler.jsonc             assets-only Worker: name, compatibility date, ./out
 tests/page.test.tsx        asserts every section, link and href
+tests/geo.test.ts          asserts the projection, distances and antimeridian splits
 docs/                      INDEX.md, STATE.md, features/, decisions/
 ```
 
@@ -57,7 +63,7 @@ Monochrome: five tokens (`--bg`, `--fg`, `--muted`, `--rule`, `--hover`) in `glo
 
 ## Editing content
 
-Change `app/content.ts` — nothing else. Adding a link there adds it to the page and to the test's coverage automatically.
+Change `app/content.ts` — nothing else. Adding a link there adds it to the page and to the test's coverage automatically. A new row in `places` adds a dot to the map, a leg to the route and its miles to the summary.
 
 ## Environment variables
 
@@ -72,5 +78,13 @@ None. There is no `.env` file and none is needed.
 - **There is no image optimizer.** `images.unoptimized` is `true`, so every file in `/public` ships at its source size and `sizes` props do nothing. Resize a photo before committing it, and update the `width`/`height` props to the real pixels of the file.
 - **Keep `wrangler.jsonc` committed.** Without a Wrangler config in the repo, `wrangler deploy` detects Next.js and rewrites the project onto the OpenNext adapter mid-build. Its Worker name must match the Cloudflare project (`erikgoins`).
 - Podcast artwork is mirrored into `public/images/`, not hotlinked from Apple.
+- **`app/world-map.ts` is generated.** Run `node scripts/build-world-map.mjs` and commit the
+  result; never hand-edit it. The map draws in degrees (`x = lon`, `y = -lat`) and the
+  `viewBox` does the scaling, so the dots and the land share one projection — keep it that
+  way or a city lands in the ocean.
+- **Longitude is cyclic, and getting that wrong still looks like a map.** A route leg or a
+  land ring that crosses the antimeridian draws as a bar straight across the map unless it is
+  split at the seam. Both cases are covered in `tests/geo.test.ts` and the generator; see
+  `docs/features/location-timeline.md`.
 - Mobile apps are intentionally plain text: no public URLs have been provided for them.
 - **iCloud Drive breaks tooling here.** This directory is under `~/Documents`, which iCloud syncs; Node hits `ETIMEDOUT` reading `node_modules`, killing `vitest` and slowing `next build` from ~3s to 5+ minutes. See the environment note in `docs/STATE.md`. If a test or build fails with `ETIMEDOUT`, it is the filesystem, not the code.
