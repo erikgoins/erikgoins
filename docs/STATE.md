@@ -24,8 +24,13 @@ _Last updated: 2026-09-30_
 | Location timeline with a generated world map | 2026-09-16 | [features/location-timeline.md](./features/location-timeline.md) |
 | Webinars in Speaking; Flywheel's YouTube channel in Elsewhere | 2026-09-27 | [decisions/007](./decisions/007-webinars-and-youtube.md) |
 | Mileage summary removed from Location | 2026-09-30 | [decisions/008](./decisions/008-drop-mileage-summary.md) |
+| Substack in Elsewhere and in the README | 2026-09-30 | [features/personal-site.md](./features/personal-site.md) |
 
 ## Verification status
+
+Verified on 2026-09-30 after adding Substack, in place: `vitest run` passes 26/26,
+`eslint .` and `npx tsc --noEmit` exit 0, and `next build` exits 0. `out/index.html` carries
+the `erikgoins.substack.com` link in the footer, and the URL returns 200.
 
 Verified on 2026-09-27 after adding the webinars and the YouTube link, from a copy of the
 repo on local disk: `vitest run` passes 26/26, `eslint .` exits 0, and `next build` exits 0

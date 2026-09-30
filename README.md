@@ -31,7 +31,7 @@ FlutterFlow Developer Conference 2026
 
 ### Elsewhere
 
-[erikgoins.com](https://erikgoins.com) · [Twitter](https://twitter.com/erikgoinsHQ) · [LinkedIn](https://www.linkedin.com/in/egoins/) · [YouTube](https://www.youtube.com/@FlywheelStudio)
+[erikgoins.com](https://erikgoins.com) · [Twitter](https://twitter.com/erikgoinsHQ) · [LinkedIn](https://www.linkedin.com/in/egoins/) · [YouTube](https://www.youtube.com/@FlywheelStudio) · [Substack](https://erikgoins.substack.com/)
 
 ---
 

@@ -119,6 +119,7 @@ export const socials = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/egoins/" },
   // Flywheel Studio's channel: the webinars and build videos live there.
   { label: "YouTube", href: "https://www.youtube.com/@FlywheelStudio" },
+  { label: "Substack", href: "https://erikgoins.substack.com/" },
   { label: "Email", href: "mailto:erik@flywheel.so" },
 ];
 
