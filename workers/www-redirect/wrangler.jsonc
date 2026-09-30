@@ -1,0 +1,12 @@
+{
+  // Redirect-only Worker for www.erikgoins.com. Workers Builds deploys only
+  // the site Worker at the repo root, so deploy this one by hand:
+  //   npx wrangler deploy -c workers/www-redirect/wrangler.jsonc
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "erikgoins-www-redirect",
+  "main": "index.ts",
+  "compatibility_date": "2026-08-17",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "www.erikgoins.com", "custom_domain": true }]
+}
