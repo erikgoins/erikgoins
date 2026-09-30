@@ -149,9 +149,11 @@ describe("home page", () => {
     expect(screen.getByText(places[0].label).className).toContain("font-medium");
   });
 
-  it("summarises the distance travelled", () => {
+  it("shows no mileage summary under the timeline", () => {
+    // Erik removed the "20,400 miles, five moves" line (decision 008).
     renderHome();
-    expect(screen.getByText("20,400 miles, five moves")).toBeDefined();
+    expect(screen.queryByText(/\bmiles\b/)).toBeNull();
+    expect(screen.queryByText(/\bmoves\b/)).toBeNull();
   });
 
   it("draws a map dot for every place that has coordinates", () => {

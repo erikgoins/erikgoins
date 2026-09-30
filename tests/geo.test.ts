@@ -2,12 +2,10 @@ import { describe, expect, it } from "vitest";
 import { places } from "../app/content";
 import {
   coordinates,
-  haversine,
   isLocated,
   leg,
   project,
   route,
-  totalMiles,
   years,
 } from "../app/lib/geo";
 
@@ -24,18 +22,6 @@ describe("projection", () => {
     expect(project(-58.38, -34.6)).toEqual({ x: -58.38, y: 34.6 });
     expect(project(114.17, 22.32)).toEqual({ x: 114.17, y: -22.32 });
     expect(project(0, 0)).toEqual({ x: 0, y: -0 });
-  });
-});
-
-describe("haversine", () => {
-  it("matches a known distance", () => {
-    // London to New York is about 3,459 miles.
-    expect(haversine(LONDON, NEW_YORK)).toBeGreaterThan(3420);
-    expect(haversine(LONDON, NEW_YORK)).toBeLessThan(3500);
-  });
-
-  it("is zero for a place and itself", () => {
-    expect(haversine(LONDON, LONDON)).toBe(0);
   });
 });
 
@@ -74,13 +60,6 @@ describe("content", () => {
   it("lists places newest first", () => {
     const starts = places.map((place) => place.from ?? -Infinity);
     expect([...starts].sort((a, b) => b - a)).toEqual(starts);
-  });
-
-  it("totals the miles actually travelled", () => {
-    // Michigan → Ohio → Charlotte → Hong Kong → Buenos Aires. Loose to within
-    // 50 miles, so nudging a coordinate does not fail the suite for no reason;
-    // the page test asserts the rounded number the reader actually sees.
-    expect(totalMiles(places)).toBeCloseTo(20388, -2);
   });
 
   it("writes an open start and a current place", () => {

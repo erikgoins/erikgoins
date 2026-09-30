@@ -1,10 +1,17 @@
 # State
 
-_Last updated: 2026-09-27_
+_Last updated: 2026-09-30_
 
 ## In Progress
 
-Nothing.
+- **`www` → apex redirect** — blocked. The Worker `erikgoins-www-redirect`
+  (`workers/www-redirect/`) was uploaded on 2026-09-27 with no domain or route, so it
+  serves nothing. Attaching `www.erikgoins.com` failed: the zone already has a DNS record
+  for `www` (the one that returns 522). The API override
+  (`override_existing_dns_record: true`) was refused too, with the same error: Wrangler's
+  OAuth login has no DNS edit scope. Next step: delete that record in the dashboard, then run
+  `npx wrangler deploy -c workers/www-redirect/wrangler.jsonc`. This Worker deploys by hand;
+  Workers Builds deploys only the site Worker at the repo root.
 
 ## Completed
 
@@ -16,6 +23,7 @@ Nothing.
 | Portrait moved into the label column; newsletter role and Instagram removed | 2026-08-18 | [decisions/005](./decisions/005-trim-roles-and-socials.md) |
 | Location timeline with a generated world map | 2026-09-16 | [features/location-timeline.md](./features/location-timeline.md) |
 | Webinars in Speaking; Flywheel's YouTube channel in Elsewhere | 2026-09-27 | [decisions/007](./decisions/007-webinars-and-youtube.md) |
+| Mileage summary removed from Location | 2026-09-30 | [decisions/008](./decisions/008-drop-mileage-summary.md) |
 
 ## Verification status
 

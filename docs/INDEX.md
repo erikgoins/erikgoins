@@ -4,7 +4,7 @@
 | --- | --- |
 | [STATE.md](./STATE.md) | Living status board: in progress, completed, backlog |
 | [features/personal-site.md](./features/personal-site.md) | The one-page site: content model, layout, metadata, testing |
-| [features/location-timeline.md](./features/location-timeline.md) | The Location section: generated world map, timeline of moves, mileage |
+| [features/location-timeline.md](./features/location-timeline.md) | The Location section: generated world map and timeline of moves |
 | [decisions/001-nextjs-rewrite.md](./decisions/001-nextjs-rewrite.md) | Rebuilding the static Carrd-style site on Next.js |
 | [decisions/002-no-invented-links.md](./decisions/002-no-invented-links.md) | Mobile apps render as plain text rather than guessed store URLs |
 | [decisions/003-monochrome-redesign.md](./decisions/003-monochrome-redesign.md) | Monochrome editorial redesign; supersedes the visual half of 001 |
@@ -12,3 +12,4 @@
 | [decisions/005-trim-roles-and-socials.md](./decisions/005-trim-roles-and-socials.md) | Newsletter role and Instagram link removed; supersedes the newsletter half of 001 |
 | [decisions/006-location-map.md](./decisions/006-location-map.md) | The location map is a generated silhouette, not a map service |
 | [decisions/007-webinars-and-youtube.md](./decisions/007-webinars-and-youtube.md) | Webinars in Speaking and Flywheel's YouTube channel in Elsewhere |
+| [decisions/008-drop-mileage-summary.md](./decisions/008-drop-mileage-summary.md) | Mileage summary removed from Location; supersedes that part of 006 |

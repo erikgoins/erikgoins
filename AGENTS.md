@@ -36,11 +36,11 @@ app/
   globals.css              design tokens, @layer base elements, label/photo utilities
   opengraph-image.tsx      generated 1200x630 share card
   world-map.ts             GENERATED land silhouette, one SVG path (do not edit)
-  lib/geo.ts               projection, haversine, route splitting, year/coordinate strings
+  lib/geo.ts               projection, route splitting, year/coordinate strings
   components/
     SpeakingPhoto.tsx      renders the conference photo only if the file exists in /public
     MediaRow.tsx           podcast or webinar row: artwork, title, show name, duration
-    Location.tsx           world map, timeline of moves, mileage summary
+    Location.tsx           world map and timeline of moves
 scripts/
   build-world-map.mjs      regenerates app/world-map.ts from world-atlas 110m
 assets/
@@ -64,7 +64,7 @@ Monochrome: five tokens (`--bg`, `--fg`, `--muted`, `--rule`, `--hover`) in `glo
 
 ## Editing content
 
-Change `app/content.ts` — nothing else. Adding a link there adds it to the page and to the test's coverage automatically. A new row in `places` adds a dot to the map, a leg to the route and its miles to the summary.
+Change `app/content.ts` — nothing else. Adding a link there adds it to the page and to the test's coverage automatically. A new row in `places` adds a dot to the map and a leg to the route.
 
 ## Environment variables
 

@@ -127,9 +127,9 @@ export const socials = [
  *
  * `from: null` is an open start (the row Erik was born into), `to: null` is
  * "now", and `lat`/`lon` of `null` means the row has no single point on the
- * map — the nomadic years. The map dots, the connecting route and the mileage
- * are all derived from these coordinates, so editing a row here moves
- * everything at once.
+ * map — the nomadic years. The map dots and the connecting route are both
+ * derived from these coordinates, so editing a row here moves everything at
+ * once.
  */
 export type Place = {
   label: string;

@@ -1,7 +1,6 @@
 # Location timeline
 
-The Location section: where Erik lives now, where he lived before, and how far that adds up
-to. Modelled on the Location card at
+The Location section: where Erik lives now and where he lived before. Modelled on the Location card at
 [michaelmcroskey.com/experience](https://michaelmcroskey.com/experience), redrawn in this
 site's monochrome system.
 
@@ -12,14 +11,16 @@ site's monochrome system.
   `--muted`.
 - A timeline underneath, newest first, with a rail of dots down the left, the place on the
   left and the years on the right.
-- A summary line: **20,400 miles, five moves**, computed from the coordinates.
+
+The section shipped with a summary line ("20,400 miles, five moves"). It was removed on
+2026-09-27 — see [decisions/008](../decisions/008-drop-mileage-summary.md).
 
 ## How it works
 
 | File | Role |
 | --- | --- |
 | `app/content.ts` | `places[]` — the only place to edit. `label`, `from`, `to`, `lat`, `lon`. |
-| `app/lib/geo.ts` | Projection, haversine, route splitting, and the year and coordinate strings. |
+| `app/lib/geo.ts` | Projection, route splitting, and the year and coordinate strings. |
 | `app/world-map.ts` | Generated. One SVG path of the world's land. Do not edit. |
 | `scripts/build-world-map.mjs` | Regenerates the path from world-atlas 110m. |
 | `app/components/Location.tsx` | The SVG and the timeline. |
@@ -63,13 +64,12 @@ test file is collected by nothing and passes by never running.
 
 - `project` puts longitude on x and flips latitude onto y — a sign flip here is the bug that
   lands a city in the ocean.
-- `haversine` matches a known distance (London–New York, ~3,459 miles).
 - A leg crossing the antimeridian splits into two segments that meet at ±180 at the same
   latitude; a short leg stays in one piece.
 - The route runs past a coordinate-less row and dashes that leg.
-- Every place and every year range renders; the current row carries `font-medium`; the
-  summary reads "20,400 miles, five moves"; there is one `<circle>` per located place and
-  the SVG is `aria-hidden`.
+- Every place and every year range renders; the current row carries `font-medium`; no
+  "miles" or "moves" summary renders; there is one `<circle>` per located place and the SVG
+  is `aria-hidden`.
 
 ## Gotchas
 
@@ -84,5 +84,5 @@ test file is collected by nothing and passes by never running.
   shows. Keep it that way.
 - **Michigan and Ohio are 1.8° apart**, so their dots overlap into one mark at this scale.
   That is honest, not a bug. The `--bg` stroke around each dot keeps the pair legible.
-- The mileage counts the Hong Kong → Buenos Aires leg as one hop. The nomadic years in
-  between are not measurable, and the dashed line says so.
+- The route draws the Hong Kong → Buenos Aires leg as one dashed hop. The nomadic years in
+  between have no fixed point, and the dash says so.

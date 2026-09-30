@@ -22,21 +22,6 @@ export function isLocated(place: Place): place is Located {
   return place.lat !== null && place.lon !== null;
 }
 
-const toRadians = (degrees: number) => (degrees * Math.PI) / 180;
-
-/** Great-circle distance in miles. */
-export function haversine(a: Located, b: Located) {
-  const R = 3958.8;
-  const dLat = toRadians(b.lat - a.lat);
-  const dLon = toRadians(b.lon - a.lon);
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRadians(a.lat)) *
-      Math.cos(toRadians(b.lat)) *
-      Math.sin(dLon / 2) ** 2;
-  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
-}
-
 export type Segment = {
   x1: number;
   y1: number;
@@ -96,34 +81,6 @@ export function route(places: Place[]): Segment[] {
   }
 
   return segments;
-}
-
-/** Total distance travelled, in miles, across every leg of the route. */
-export function totalMiles(places: Place[]) {
-  const stops = [...places].reverse().filter(isLocated);
-  let miles = 0;
-  for (let i = 0; i < stops.length - 1; i++) {
-    miles += haversine(stops[i], stops[i + 1]);
-  }
-  return miles;
-}
-
-const WORDS = [
-  "no",
-  "one",
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "nine",
-  "ten",
-];
-
-export function spell(count: number) {
-  return WORDS[count] ?? String(count);
 }
 
 /** "2023 — now", "— 2009", "2015 — 2020". */

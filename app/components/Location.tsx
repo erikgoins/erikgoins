@@ -6,12 +6,8 @@ import {
   isLocated,
   project,
   route,
-  spell,
-  totalMiles,
   years,
 } from "../lib/geo";
-
-const miles = new Intl.NumberFormat("en-US");
 
 /**
  * Where Erik lives now and where he lived before: a world map with a dot per
@@ -22,8 +18,6 @@ export function Location() {
   const current = places.find(isLocated);
   const stops = places.filter(isLocated);
   const segments = route(places);
-  const moves = places.length - 1;
-  const travelled = Math.round(totalMiles(places) / 100) * 100;
 
   return (
     <div>
@@ -111,10 +105,6 @@ export function Location() {
           );
         })}
       </ol>
-
-      <p className="mt-6 text-[0.8125rem] text-muted">
-        {miles.format(travelled)} miles, {spell(moves)} moves
-      </p>
     </div>
   );
 }
